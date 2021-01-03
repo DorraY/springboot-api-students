@@ -3,6 +3,8 @@ package com.projet.Controller;
 import com.projet.Model.Section;
 import com.projet.Model.Student;
 import com.projet.Repository.SectionRepository;
+import com.projet.Repository.StudentRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,10 @@ import java.util.Map;
 public class SectionController {
     @Autowired
     private  SectionRepository sectionRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
 
     @GetMapping("/sections")
     public List<Section> getAllSections() {
@@ -53,7 +59,7 @@ public class SectionController {
             throws ResourceNotFoundException {
         Section section = sectionRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("No section for this id" + id));
-        List <Student> allStudents = StudentController.getAllStudents();
+        List <Student> allStudents = studentRepository.findAll();
         for (Student student: allStudents) {
             if (student.getSection().getId().equals(id)) {
                 StudentController.deleteStudent(student.getId());

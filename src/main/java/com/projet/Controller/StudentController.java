@@ -19,10 +19,10 @@ import java.util.Map;
 public class StudentController {
 
     @Autowired
-    private static StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     @GetMapping("/students")
-    public static List<Student> getAllStudents() {
+    public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
@@ -53,7 +53,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/students/{id}")
-    public static Map<String, Boolean> deleteStudent(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+    public Map<String, Boolean> deleteStudent(@PathVariable Integer id) throws ResourceNotFoundException {
         Student student = studentRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("No student for this id" + id));
         studentRepository.delete(student);
