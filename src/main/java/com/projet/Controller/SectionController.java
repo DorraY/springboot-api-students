@@ -62,7 +62,9 @@ public class SectionController {
         List <Student> allStudents = studentRepository.findAll();
         for (Student student: allStudents) {
             if (student.getSection().getId().equals(id)) {
-                StudentController.deleteStudent(student.getId());
+                Student studentToDelete = studentRepository.findById(id).orElseThrow(
+                        () -> new ResourceNotFoundException("No student for this id" + id));
+                studentRepository.delete(studentToDelete);
             }
         }
         sectionRepository.delete(section);
